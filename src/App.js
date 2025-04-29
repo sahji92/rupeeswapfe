@@ -1,12 +1,13 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { ContactFooter } from './components/ContactFooter';
+import Topbar from './components/Topbar';
+import { TypewriterComponent } from './components/TypewriterComponent';
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      <>hiiiiiii</>
-      </header>
+      <Topbar/>
+    <TypewriterComponent/>
+      <ContactFooter/>
     </div>
   );
 }
