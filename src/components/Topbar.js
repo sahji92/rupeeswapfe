@@ -1,28 +1,35 @@
 import React from "react";
-import { Button, Container, Nav, Navbar} from "react-bootstrap";
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/rslogo.png";
+import { Link } from "react-router-dom";
 export default function Topbar() {
   return (
-      <Navbar bg="light" data-bs-theme="light">
-        <Container  className="d-flex justify-content-between sticky" style={{}}>
-          <Navbar.Brand href="/home">
-            <img
-              src={logo}
-              alt="rupeeswap"
-              height="100"
-              width="100"
-              className="d-inline-block align-top"
-            />
-          </Navbar.Brand>
-          <Nav className="d-flex justify-content-start" style={{ fontFamily:'serif',fontSize:'1rem',fontWeight:'bold'}}>
-            <Nav.Item >
-              <Nav.Link href="/home"><Button className="btn btn-primary">Login</Button></Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link href="/features"><Button className="btn btn-secondary">Find nearby cash exchange partners</Button></Nav.Link>
-            </Nav.Item>
-          </Nav>
-        </Container>
-      </Navbar>
+    <Navbar
+      className="d-flex justify-content-between p-2 fixed-top"
+      bg="light"
+      data-bs-theme="light"
+    >
+      <Navbar.Brand href="/">
+        <Link to="/">
+          <img
+            src={logo}
+            alt="rupeeswap"
+            height="60vh"
+            width="60vw"
+            className="d-inline-block align-top"
+          />
+        </Link>
+      </Navbar.Brand>
+
+      <Nav.Item>
+        <Link to="/login">
+          <Nav.Link href="/login">
+            <button type="button" class="btn btn-primary">
+              <i class="fa fa-sign-in"></i> Login
+            </button>
+          </Nav.Link>
+        </Link>
+      </Nav.Item>
+    </Navbar>
   );
 }

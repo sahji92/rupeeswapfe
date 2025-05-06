@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 export const TypewriterComponent = () => {
   const [text, setText] = useState('');
@@ -7,8 +8,8 @@ export const TypewriterComponent = () => {
   const [typingSpeed, setTypingSpeed] = useState(100);
 
   const words = [
-    'Find nearby cash exchange partners',
     'Convert upi to cash easily.',
+    'Convert cash to upi easily.',
     'Change denomination easily.'
   ];
 
@@ -43,14 +44,14 @@ export const TypewriterComponent = () => {
   }, [text, isDeleting, wordIndex, typingSpeed, words]);
 
   return (
-    <div className="container d-flex flex-column align-items-center justify-content-center min-vh-75 bg-light">
-      <div className="card shadow-lg p-5 text-center w-100">
+    <div className="container d-flex flex-column align-items-center justify-content-around min-vh-100 scroll-hidden p-4">
+      <div className="p-5 text-center w-100">
         <h1 className="display-4 mb-4 text-success" style={{fontFamily:'sans-serif'}}>RupeeSwap</h1>
         <div className="fs-3 text-secondary mb-4" style={{ minHeight: '2em' }}>
           {text}
           <span className="blink-caret">|</span>
         </div>
-        
+      <Link className="btn btn-danger"  to='/'><i class="fa fa-map-marker"></i> Find nearby</Link>
       </div>
     </div>
   );

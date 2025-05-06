@@ -1,6 +1,6 @@
 export const ContactFooter = () => {
     return (
-      <footer className="bg-dark text-white py-4 mt-4">
+      <footer className="bg-dark text-white py-4 ">
         <div className="container text-center p-4">
           <h5 className="mb-3 text-primary">Connect With Us</h5>
           <div className="d-flex justify-content-center gap-4">
