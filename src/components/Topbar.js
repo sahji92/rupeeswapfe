@@ -1,15 +1,18 @@
 import React from "react";
-import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/rslogo.png";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 export default function Topbar() {
+  const location = useLocation(); // Get current route
+
+  // Show login button only if the current path is the homepage
+  const isHomePage = location.pathname === "/";
   return (
     <Navbar
-      className="d-flex justify-content-between p-2 fixed-top"
-      bg="light"
-      data-bs-theme="light"
+      className="d-flex justify-content-between p-2"
+      style={{ backgroundColor: "#f3f3f4", borderRadius: "1rem" }}
     >
-      <Navbar.Brand href="/">
+      <Navbar.Brand>
         <Link to="/">
           <img
             src={logo}
@@ -20,16 +23,17 @@ export default function Topbar() {
           />
         </Link>
       </Navbar.Brand>
-
-      <Nav.Item>
-        <Link to="/login">
-          <Nav.Link href="/login">
-            <button type="button" class="btn btn-primary">
-              <i class="fa fa-sign-in"></i> Login
-            </button>
-          </Nav.Link>
-        </Link>
-      </Nav.Item>
+      {isHomePage && (
+        <Nav.Item>
+          <Link to="/login">
+            <Nav.Link href="/login">
+              <button type="button" class="btn btn-primary">
+                <i class="fa fa-sign-in"></i> Login
+              </button>
+            </Nav.Link>
+          </Link>
+        </Nav.Item>
+      )}
     </Navbar>
   );
 }

@@ -46,7 +46,7 @@ export const TypewriterComponent = () => {
   return (
     <div className="container d-flex flex-column align-items-center justify-content-around min-vh-100 scroll-hidden p-4">
       <div className="p-5 text-center w-100">
-        <h1 className="display-4 mb-4 text-success" style={{fontFamily:'sans-serif'}}>RupeeSwap</h1>
+        <h1 className="display-4 mb-4" style={{fontFamily:'Lilita One', color:'#0baa41',fontStyle:'normel',fontWeight:'bold'}}>RupeeSwap</h1>
         <div className="fs-3 text-secondary mb-4" style={{ minHeight: '2em' }}>
           {text}
           <span className="blink-caret">|</span>

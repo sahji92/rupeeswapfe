@@ -1,36 +1,24 @@
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
-import Topbar from "./Topbar";
-import { ContactFooter } from "./ContactFooter";
 import { Link } from "react-router-dom";
 export default function Login() {
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center h-100">
+    <div className="d-flex flex-column justify-content-end align-items-center">
       <div className="m-3 border border-dark p-5 rounded rounded-3">
         <Form>
-          <h3>Log In</h3>
+          <h2>Log In</h2>
           <Form.Group className="mb-3" as={Col} controlId="formGridEmail">
-            <Form.Label>Email</Form.Label>
+            <Form.Label>Mobile No</Form.Label>
             <Form.Control
-              name="email"
+              name="phone"
               required
-              type="email"
-              placeholder="Enter email"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" as={Col} controlId="formGridPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              name="password"
-              required
-              type="password"
-              placeholder="Enter password"
+              type="number"
+              placeholder="Enter Mobile No"
             />
           </Form.Group>
           <Button
-            className="mb-3 w-100 rounded rounded-3"
+            className=" w-100 rounded rounded-3"
             variant="primary"
             type="submit"
           >
@@ -38,14 +26,9 @@ export default function Login() {
           </Button>
           <hr></hr>
         </Form>
+        Dont have an account?
         <Link to="/signup">
-          <Button
-            className="mt-3 w-100 rounded rounded-3"
-            variant="secondary"
-            type="submit"
-          >
-            Sign Up
-          </Button>
+            Signup
         </Link>
       </div>
     </div>
