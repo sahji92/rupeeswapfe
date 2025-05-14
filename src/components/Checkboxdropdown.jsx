@@ -1,123 +1,114 @@
 import { useState } from "react";
-import { Form, Dropdown} from "react-bootstrap";
+import { Form, Dropdown } from "react-bootstrap";
+import './checkboxdropdown.css';
 
-function Checkboxdropdown() {
+function Checkboxdropdown({ onChange }) {
   const [isUpiChecked, setUpiIsChecked] = useState(false);
   const [isCashChecked, setCashIsChecked] = useState(false);
-  const [upiSelectedOption, setUpiSelectedOption] = useState("upiCharges");
-  const [cashSelectedOption, setCashSelectedOption] = useState("cashCharges");
+  const [upiPercentage, setUpiPercentage] = useState("");
+  const [cashPercentage, setCashPercentage] = useState("");
+
+  const percentages = ["1%", "2%", "3%", "4%", "5%", "6%", "7%", "8%", "9%", "10%"];
 
   const handleUpiCheckboxChange = () => {
-    setUpiIsChecked(!isUpiChecked);
+    const newUpiChecked = !isUpiChecked;
+    setUpiIsChecked(newUpiChecked);
+    const newUpiPercentage = newUpiChecked && !upiPercentage ? "1%" : upiPercentage;
+    if (newUpiChecked && !upiPercentage) {
+      setUpiPercentage("1%");
+    }
+    onChange({
+      upi: { enabled: newUpiChecked, percentage: newUpiPercentage },
+      cash: { enabled: isCashChecked, percentage: cashPercentage },
+    });
   };
 
   const handleCashCheckboxChange = () => {
-    setCashIsChecked(!isCashChecked);
+    const newCashChecked = !isCashChecked;
+    setCashIsChecked(newCashChecked);
+    const newCashPercentage = newCashChecked && !cashPercentage ? "1%" : cashPercentage;
+    if (newCashChecked && !cashPercentage) {
+      setCashPercentage("1%");
+    }
+    onChange({
+      upi: { enabled: isUpiChecked, percentage: upiPercentage },
+      cash: { enabled: newCashChecked, percentage: newCashPercentage },
+    });
   };
 
-  const handleUpiSelect = (option) => {
-    setUpiSelectedOption(option);
+  const handleUpiPercentageChange = (percent) => {
+    setUpiPercentage(percent);
+    onChange({
+      upi: { enabled: isUpiChecked, percentage: percent },
+      cash: { enabled: isCashChecked, percentage: cashPercentage },
+    });
   };
-  const handleCashSelect = (option) => {
-    setCashSelectedOption(option);
+
+  const handleCashPercentageChange = (percent) => {
+    setCashPercentage(percent);
+    onChange({
+      upi: { enabled: isUpiChecked, percentage: upiPercentage },
+      cash: { enabled: isCashChecked, percentage: percent },
+    });
   };
+
   return (
-    <div className="d-flex flex-column align-items-start">
-      <div className="d-flex align-items-center justify-content-center">
+    <div className="d-flex flex-column align-items-start checkbox-dropdown">
+      <div className="d-flex align-items-center mb-2">
         <Form.Check
           type="checkbox"
-          label="Upi Exchange"
+          label="UPI Exchange"
           checked={isUpiChecked}
           onChange={handleUpiCheckboxChange}
+          className="me-2"
         />
-        <Dropdown className="m-1">
+        <Dropdown>
           <Dropdown.Toggle
-            variant="outline-danger"
-            id="dropdown-basic"
+            variant="outline-secondary"
+            id="upi-dropdown"
             disabled={!isUpiChecked}
+            className="dropdown-toggle"
           >
-            {upiSelectedOption}
+            {upiPercentage || "Select Percentage"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 1")}>
-              1%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 2")}>
-              2%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 3")}>
-              3%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 1")}>
-              4%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 2")}>
-              5%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 3")}>
-              6%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 1")}>
-              7%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 2")}>
-              8%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 3")}>
-              9%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleUpiSelect("Option 3")}>
-              10%
-            </Dropdown.Item>
+            {percentages.map((percent) => (
+              <Dropdown.Item
+                key={percent}
+                onClick={() => handleUpiPercentageChange(percent)}
+              >
+                {percent}
+              </Dropdown.Item>
+            ))}
           </Dropdown.Menu>
         </Dropdown>
       </div>
-      <div className="d-flex align-items-center justify-content-center">
+      <div className="d-flex align-items-center">
         <Form.Check
           type="checkbox"
           label="Cash Change"
           checked={isCashChecked}
           onChange={handleCashCheckboxChange}
+          className="me-2"
         />
-        <Dropdown className="">
+        <Dropdown>
           <Dropdown.Toggle
-            variant="outline-danger"
-            id="dropdown-basic"
+            variant="outline-secondary"
+            id="cash-dropdown"
             disabled={!isCashChecked}
+            className="dropdown-toggle"
           >
-            {cashSelectedOption}
+            {cashPercentage || "Select Percentage"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 1")}>
-              1%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 2")}>
-              2%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 3")}>
-              3%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 1")}>
-              4%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 2")}>
-              5%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 3")}>
-              6%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 1")}>
-              7%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 2")}>
-              8%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 3")}>
-              9%
-            </Dropdown.Item>
-            <Dropdown.Item onClick={() => handleCashSelect("Option 3")}>
-              10%
-            </Dropdown.Item>
+            {percentages.map((percent) => (
+              <Dropdown.Item
+                key={percent}
+                onClick={() => handleCashPercentageChange(percent)}
+              >
+                {percent}
+              </Dropdown.Item>
+            ))}
           </Dropdown.Menu>
         </Dropdown>
       </div>
