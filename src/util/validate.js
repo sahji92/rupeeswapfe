@@ -9,9 +9,7 @@ export const validateForm = (formData, countryCode) => {
     if (!formData.phone) {
       return "Please enter a phone number.";
     }
-    if (countryCode === "in" && formData.phone.length !== 12) {
-      return "Please enter a valid 10-digit Indian mobile number.";
-    }
+    
     if (!formData.location) {
         return "please select current location";
       }

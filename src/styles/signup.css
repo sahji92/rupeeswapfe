@@ -13,7 +13,12 @@
     border: none;
     transition: transform 0.2s ease-in-out;
   }
-  
+  .login-btn .spinner-border {
+    vertical-align: middle;
+  }
+  .location-btn .spinner-border {
+    vertical-align: middle;
+  }
   .login-btn:hover {
     transform: scale(1.05);
   }

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Dropdown } from "react-bootstrap";
-import './checkboxdropdown.css';
+import '../styles/checkboxdropdown.css'
 
 function Checkboxdropdown({ onChange }) {
   const [isUpiChecked, setUpiIsChecked] = useState(false);
