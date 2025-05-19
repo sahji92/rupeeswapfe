@@ -13,7 +13,7 @@ export default function Topbar() {
       style={{ backgroundColor: "#f3f3f4", borderRadius: "1rem" }}
     >
       <Navbar.Brand>
-        <Link to="/">
+       <Link to="/">
           <img
             src={logo}
             alt="rupeeswap"

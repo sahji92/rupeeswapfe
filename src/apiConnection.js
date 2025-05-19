@@ -3,9 +3,7 @@ const apiConnection = async(endpoint, method,payload=null,headers={}) => {
   return await axios({
     method:method,
     url:`http://localhost:5000${endpoint}`,
-    headers: {
-      ...headers
-    },
+    headers: { 'Content-Type': 'application/json', ...headers },
     data:{
       ...payload
     }
