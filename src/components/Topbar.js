@@ -1,12 +1,18 @@
 import React from "react";
-import { Nav, Navbar } from "react-bootstrap";
+import { Button, Nav, Navbar } from "react-bootstrap";
 import logo from "../assets/rslogo.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 export default function Topbar() {
   const location = useLocation(); // Get current route
 
   // Show login button only if the current path is the homepage
   const isHomePage = location.pathname === "/";
+  const isDashboard = location.pathname === "/dashboard";
+  const navigate=useNavigate()
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
   return (
     <Navbar
       className="d-flex justify-content-between p-2"
@@ -33,6 +39,11 @@ export default function Topbar() {
             </Nav.Link>
           </Link>
         </Nav.Item>
+      )}
+      {isDashboard &&(
+        <Button variant="danger" onClick={handleLogout} className="mt-3">
+                    Logout
+                  </Button>
       )}
     </Navbar>
   );

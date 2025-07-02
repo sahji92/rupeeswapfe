@@ -1,7 +1,7 @@
 export const apiEndpoints = {
     REGISTER_USER_ENDPOINT: '/create-user',
     LOGIN_USER_ENDPOINT: '/login-user',
-    GET_USERS_ENDPOINT: '/get-users',
+    GET_USER_ENDPOINT: '/api/auth/get-user',
     SIGNUP_SEND_OTP_ENDPOINT:'/api/auth/signup/send-otp',
     SIGNUP_VERIFY_OTP_ENDPOINT:'/api/auth/signup/verify-otp',
 }

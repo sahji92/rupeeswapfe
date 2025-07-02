@@ -129,8 +129,8 @@ export default function Signup() {
 
   return (
     <Container className="login-container">
-      <Row className="d-flex justify-content-center p-Row">
-        <Col lg={4} sm={6} className="border border-dark rounded rounded-3 p-2">
+      <Row className="d-flex justify-content-center w-100">
+        <Col lg={4} sm={6} className="border border-dark rounded rounded-3 bg-light">
           <h3 className="text-center mb-4">Sign Up</h3>
           {error && (
             <Alert variant="danger" id="error-message">
