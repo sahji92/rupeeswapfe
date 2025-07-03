@@ -1,52 +1,100 @@
-import { useState } from "react";
-import Button from "react-bootstrap/Button";
-import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
+import { useEffect, useState } from "react";
+import { Button, Col, Form, Alert, Spinner } from "react-bootstrap";
 import PhoneInput from "react-phone-input-2";
-import { Link } from "react-router-dom";
-import { Alert } from "react-bootstrap";
+import { Link, useNavigate } from "react-router-dom";
+import apiConnection from "../apiConnection";
+import { apiEndpoints, httpMethods } from "../constants";
+
 export default function Login() {
+  const [formData, setFormData] = useState({
+    phone: "",
+  });
   const [countryCode, setCountryCode] = useState("in");
-  const [phone, setPhone] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const navigate = useNavigate();
+
+  const getData = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const handlePhoneChange = (value, country) => {
-    setPhone(value);
+    setFormData({ ...formData, phone: `+${value}` });
     setCountryCode(country.countryCode);
+    console.log(value);
   };
+
   const validatePhone = () => {
-    if (!phone) {
+    if (!formData.phone) {
       return "Please enter a phone number.";
     }
-    if (countryCode === "in" && phone.length !== 12) {
+    if (countryCode !== "in" && formData.phone.length !== 13) {
       return "Please enter a valid 10-digit Indian mobile number.";
     }
   };
-  const handleSubmit = (e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     setSuccess("");
-    const validateError = validatePhone();
-    if (validateError) {
-      setError(validateError);
+    setIsSubmitting(true);
+
+    const validationError = validatePhone();
+    if (validationError) {
+      setError(validationError);
+      setIsSubmitting(false);
       return;
     }
-    setSuccess("Login successfull");
+
+    try {
+      const data = await apiConnection(
+        apiEndpoints.LOGIN_SEND_OTP_ENDPOINT,
+        httpMethods.POST,
+        formData
+      );
+      if (data.status === 200) {
+        const { userId, message } = data.data;
+        console.log("dataaaaaa", userId);
+        setSuccess("Otp Sent");
+        navigate("/verify-otp", { state: { userId: userId } });
+      }
+    } catch (err) {
+      setError(
+        err.response?.data?.message || "Failed to sign up. Please try again."
+      );
+      setIsSubmitting(false);
+    }
   };
+
+  useEffect(() => {
+    if (process.env.NODE_ENV === "development") {
+      console.log(formData);
+    }
+  }, [formData]);
+
   return (
     <div className="d-flex flex-column justify-content-end align-items-center">
       <div className="m-3 border border-dark p-5 rounded rounded-3">
-      <h2 className="text-center mb-4">Log in</h2>
-          {error && <Alert variant="danger" id="error-message" className="p-1">{error}</Alert>}
-          {success && <Alert variant="success" id="success-message">{success}</Alert>}
+        <h2 className="text-center mb-4">Log in</h2>
+        {error && (
+          <Alert variant="danger" id="error-message" className="p-1">
+            {error}
+          </Alert>
+        )}
+        {success && (
+          <Alert variant="success" id="success-message">
+            {success}
+          </Alert>
+        )}
 
-        <Form onSubmit={handleSubmit}> 
+        <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3" as={Col} controlId="formGridPhone">
             <Form.Label>Phone Number</Form.Label>
             <PhoneInput
               country={"in"}
-              value={phone}
+              value={formData.phone}
               onChange={handlePhoneChange}
               inputClass="form-control phone-input"
               buttonClass="phone-dropdown"
@@ -60,13 +108,30 @@ export default function Login() {
               countryCodeEditable={false}
             />
           </Form.Group>
-          <Button className="mb-3 w-100 login-btn" type="submit">
-            Submit
+          <Button
+            className="mb-3 w-100 login-btn"
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <Spinner
+                  as="span"
+                  animation="border"
+                  size="sm"
+                  role="status"
+                  aria-hidden="true"
+                  className="me-2"
+                />
+                Submitting...
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
-          <hr></hr>
+          <hr />
         </Form>
-        Dont have an account?
-        <Link to="/signup">Signup</Link>
+        Don't have an account? <Link to="/signup">Signup</Link>
       </div>
     </div>
   );

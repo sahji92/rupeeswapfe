@@ -33,9 +33,9 @@ export default function Signup() {
 
   const navigate = useNavigate("");
 
-  const getData = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+              const getData = (e) => {
+                setFormData({ ...formData, [e.target.name]: e.target.value });
+              };
 
   const handlePhoneChange = (value, country) => {
     setFormData({ ...formData, phone: `+${value}` });

@@ -5,3 +5,42 @@
     font-size: 0.9rem;
     padding: 0.5rem;
   }
+  /* Fade-in animation for the card */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.5s ease-in;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.table tr:hover {
+  background-color: #f1f3f5;
+}
+
+.rounded-circle {
+  transition: transform 0.3s ease;
+}
+
+.rounded-circle:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive table font size for mobile */
+@media (max-width: 576px) {
+  .table {
+    font-size: 0.9rem;
+  }
+}

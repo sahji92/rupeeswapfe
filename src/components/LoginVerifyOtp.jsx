@@ -4,7 +4,7 @@ import apiConnection from "../apiConnection";
 import { apiEndpoints, httpMethods } from "../constants";
 import { createCookie, useLocation, useNavigate } from "react-router-dom";
 
-export default function VerifyOtp() {
+export default function LoginVerifyOtp() {
   const navigate = useNavigate();
   const [otp, setOtp] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,7 +24,7 @@ export default function VerifyOtp() {
 
     try {
       const data = await apiConnection(
-        apiEndpoints.SIGNUP_VERIFY_OTP_ENDPOINT,
+        apiEndpoints.LOGIN_VERIFY_OTP_ENDPOINT,
         httpMethods.POST,
         formData
       );
@@ -46,7 +46,7 @@ export default function VerifyOtp() {
   return (
     <Container className="login-container">
       <Row className="d-flex justify-content-center">
-        <Col lg={4} sm={6} className="border border-dark rounded rounded-3 p-5  w-100">
+        <Col lg={4} sm={6} className="border border-dark rounded rounded-3 p-5">
           <h3 className="text-center mb-4">Verify OTP</h3>
           {error && <Alert variant="danger" id="error-message">{error}</Alert>}
           <Form>
@@ -56,7 +56,7 @@ export default function VerifyOtp() {
                 name="otp"
                 value={otp}
                 type="number"
-                placeholder="Enter 6 digit OTP"
+                placeholder="Enter 4 digit OTP"
                 aria-label="OTP"
                 onChange={handleChange}
               />

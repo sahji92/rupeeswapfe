@@ -69,7 +69,7 @@ function Checkboxdropdown({ onChange }) {
             disabled={!isUpiChecked}
             className="dropdown-toggle"
           >
-            {upiPercentage || "Select Percentage"}
+            {upiPercentage || "Set Charges"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
             {percentages.map((percent) => (
@@ -86,7 +86,7 @@ function Checkboxdropdown({ onChange }) {
       <div className="d-flex align-items-center">
         <Form.Check
           type="checkbox"
-          label="Cash Change"
+          label="Denomination Exchange"
           checked={isCashChecked}
           onChange={handleCashCheckboxChange}
           className="me-2"
@@ -98,7 +98,7 @@ function Checkboxdropdown({ onChange }) {
             disabled={!isCashChecked}
             className="dropdown-toggle"
           >
-            {cashPercentage || "Select Percentage"}
+            {cashPercentage || "Set Charges"}
           </Dropdown.Toggle>
           <Dropdown.Menu>
             {percentages.map((percent) => (
