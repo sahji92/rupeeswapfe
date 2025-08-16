@@ -3,6 +3,8 @@ import { Container, Alert, Spinner, Table, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import apiConnection from "../apiConnection";
 import { apiEndpoints, httpMethods } from "../constants";
+import { fetchLocationFromCoordinates } from "../util/location"; // Import from location.js
+import user from "../assets/user.png";
 
 export default function Dashboard() {
   const [userData, setUserData] = useState(null);
@@ -10,7 +12,6 @@ export default function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
-  // Fetch dashboard data
   const fetchDashboard = async () => {
     setIsLoading(true);
     try {
@@ -18,7 +19,6 @@ export default function Dashboard() {
       if (!token) {
         throw new Error("No token found. Please log in.");
       }
-
       const data = await apiConnection(
         apiEndpoints.GET_USER_ENDPOINT,
         httpMethods.GET,
@@ -27,7 +27,16 @@ export default function Dashboard() {
       );
       console.log("API Response:", data);
       if (data.status === 200) {
-        setUserData(data.data);
+        let userData = data.data;
+        // Fallback: Convert GeoJSON location to address if address is missing
+        if (!userData.user.address && userData.user.location?.coordinates) {
+          const { location } = await fetchLocationFromCoordinates(
+            userData.user.location.coordinates[1], // latitude
+            userData.user.location.coordinates[0] // longitude
+          );
+          userData.user.address = location || "Unknown";
+        }
+        setUserData(userData);
       } else {
         throw new Error(data.data?.message || "Failed to fetch dashboard data");
       }
@@ -45,7 +54,6 @@ export default function Dashboard() {
     fetchDashboard();
   }, [navigate]);
 
-  // Use forEach to collect services data for table rows
   const serviceRows = [];
   if (userData?.user?.services) {
     Object.entries(userData.user.services).forEach(([key, { percentage }]) => {
@@ -74,23 +82,21 @@ export default function Dashboard() {
         ) : (
           <Card className="shadow-sm border-0 p-4 mx-auto" style={{ maxWidth: "800px", animation: "fadeIn 0.5s ease-in" }}>
             <Card.Body className="text-center">
-              {/* Placeholder Profile Picture */}
               <img
-                src="https://via.placeholder.com/150?text=User"
+                src={user}
                 alt="Profile"
                 className="rounded-circle mb-4"
-                style={{ width: "150px", height: "150px", objectFit: "cover", border: "3px solid #007bff" }}
+                style={{ width: "100px", height: "100px", objectFit: "fill", border: "1px solid #007bff" }}
               />
               <h3 className="mb-4 text-primary">User Information</h3>
               <div className="mb-3 text-start">
-                <strong>Userame<i class="fa fa-user"></i> :</strong> {userData?.user?.name || "Unknown"}
+                <strong>Username<i className="fa fa-user"></i> :</strong> {userData?.user?.username || "Unknown"}
               </div>
               <div className="mb-3 text-start">
-                <strong>Mobile No<i class="fa-solid fa-mobile"></i>:</strong> {userData?.user?.phone || "Unknown"}
+                <strong>Mobile No<i className="fa-solid fa-mobile"></i>:</strong> {userData?.user?.phone || "Unknown"}
               </div>
               <div className="mb-3 text-start">
-                <strong>Location<i className="fa fa-map-marker"></i>
-: </strong> {userData?.user?.location || "Unknown"}
+                <strong>Location<i className="fa fa-map-marker"></i>: </strong> {userData?.user?.address || "Unknown"}
               </div>
               {userData?.user?.services && (
                 <>

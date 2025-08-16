@@ -48,62 +48,61 @@ export default function Signup() {
   }, []);
 
   const handleFetchLocation = async () => {
-    setIsFetchingLocation(true);
-    try {
-      const locationData = await fetchCurrentLocation();
-      setFormData({
-        ...formData,
-        location: locationData.location,
-        latitude: locationData.latitude?.toString() || "",
-        longitude: locationData.longitude?.toString() || "",
-      });
-    } catch (err) {
-      setError(
-        err.message ||
-          "Failed to fetch location. Please enter address manually (e.g., 123 MG Road, Mumbai)."
-      );
-      setFormData({
-        ...formData,
-        location: formData.location || "Enter address manually",
-        latitude: formData.latitude || "",
-        longitude: formData.longitude || "",
-      });
-    } finally {
-      setIsFetchingLocation(false);
-    }
-  };
+  setIsFetchingLocation(true);
+  try {
+    const locationData = await fetchCurrentLocation();
+    console.log('Fetched location data:', locationData); // Debug: Log location data
+    setFormData({
+      ...formData,
+      location: locationData.location,
+      latitude: locationData.latitude?.toString() || "",
+      longitude: locationData.longitude?.toString() || "",
+    });
+  } catch (err) {
+    setError(
+      err.message ||
+        "Failed to fetch location. Please enter address manually (e.g., 123 MG Road, Mumbai)."
+    );
+    setFormData({
+      ...formData,
+      location: formData.location || "Enter address manually",
+      latitude: formData.latitude || "",
+      longitude: formData.longitude || "",
+    });
+  } finally {
+    setIsFetchingLocation(false);
+  }
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError("");
-    setSuccess("");
-    setIsSubmitting(true); // Start spinner
+  setError("");
+  setSuccess("");
+  setIsSubmitting(true);
 
-    const validationError = validateForm(formData, countryCode);
-    if (validationError) {
-      setError(validationError);
-      setIsSubmitting(false); // Stop spinner on validation error
-      return;
+  const validationError = validateForm(formData, countryCode);
+  if (validationError) {
+    setError(validationError);
+    setIsSubmitting(false);
+    return;
+  }
+
+  try {
+    console.log('Sending signup data:', formData); // Debug: Log formData
+    const data = await apiConnection(
+      apiEndpoints.SIGNUP_SEND_OTP_ENDPOINT,
+      httpMethods.POST,
+      formData
+    );
+    console.log('Signup response:', data); // Debug: Log response
+    if (data.status === 200) {
+      setSuccess("Otp Sent");
+      navigate("/verify-otp", { state: { userId: data.data.userId } });
     }
-
-    try {
-      const data = await apiConnection(
-        apiEndpoints.SIGNUP_SEND_OTP_ENDPOINT,
-        httpMethods.POST,
-        formData
-      );
-      if (data.status === 200) {
-        const { userId, message } = data.data;
-        console.log("dataaaaaa", userId);
-        setSuccess("Otp Sent");
-        navigate("/verify-otp", { state: { userId: userId } });
-      }
-    } catch (err) {
-      setError(
-        err.response.data.message || "Failed to sign up. Please try again."
-      );
-      setIsSubmitting(false); // Stop spinner
-    } finally {
+  } catch (err) {
+    setError(err.response?.data?.message || "Failed to sign up. Please try again.");
+    setIsSubmitting(false);
+  } finally {
       if (!success) {
         setFormData({
           username: "",

@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.user-profile-container {
+  background-color: #f8f9fa;
+}
+
+.bg-primary {
+  background-color: #007bff !important;
+}
+
+.bg-primary-dark {
+  background-color: #0056b3 !important;
+}
+
+.bg-green-600 {
+  background-color: #16a34a !important;
+}
+
+.bg-green-700 {
+  background-color: #15803d !important;
+}
+
+.text-primary {
+  color: #007bff !important;
+}

@@ -1,0 +1,35 @@
+.nearby-container {
+  background: linear-gradient(135deg, #ffffff 0%, #e9ecef 100%);
+  min-height: 100vh;
+  padding: 2rem;
+}
+
+.nearby-card {
+  border-radius: 15px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  background: #fff;
+}
+
+.nearby-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.nearby-card img {
+  transition: transform 0.3s ease;
+}
+
+.nearby-card:hover img {
+  transform: scale(1.1);
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.card-text {
+  font-size: 0.9rem;
+  color: #6c757d;
+}
